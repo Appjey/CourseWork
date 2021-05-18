@@ -1,16 +1,27 @@
-#include "application.h"
+#include "Application.h"
 
 void Application::start()
 {
+	std::string root, obj_name;
+	std::cin >> root;
+	object_name = root;
 	BaseClass* base;
-	BaseClass* subObj;
-	std::string par, child;
-	std::cin >> par;
-	base = new BaseClass(par, nullptr);
-	while (par != "end" && child != "end")
+	while (true)
 	{
-		std::cin >> par >> child;
-		subObj = new Application(child, base);
+		std::cin >> root;
+		std::cin >> obj_name;
+		base = new BaseClass(getPtr(root), obj_name);
+		if (root == obj_name)
+		{
+			break;
+		}
 	}
-	base->ShowTree(0);
+}
+
+void Application::printResults()
+{
+	printTree(this, 0);
+	std::cout << std::endl;
+	std::cout << this->getName() << std::endl;
+	showOutput(this);
 }

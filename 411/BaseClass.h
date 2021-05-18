@@ -6,24 +6,26 @@
 
 class BaseClass
 {
-private:
-	std::vector <BaseClass*> children; // Массив подчинённых объектов
-	std::string object_name; // Имя объекта
-	BaseClass* parent; // Указатель на родительский объект
+protected:
+	std::vector <BaseClass*> children;
+	std::string object_name;
+	BaseClass* parent;
 
 public:
 
-	BaseClass(std::string object_name, BaseClass* parent);
+	BaseClass(BaseClass* parent, std::string object_name);
 
 	~BaseClass();
-
-	BaseClass* getParent();
 
 	void setName(std::string object_name);
 
 	std::string getName();
 
-	void ShowTree(int level);
+	void printTree(BaseClass* parent, int space);
+
+	BaseClass* getPtr(std::string name);
+
+	void showOutput(BaseClass* parent);
 };
 
 #endif

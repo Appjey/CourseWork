@@ -1,55 +1,26 @@
 #include "BaseClass.h"
 
-BaseClass::BaseClass(std::string object_name, BaseClass* parent)
+BaseClass::BaseClass(BaseClass* parent, std::string object_name)
 {
-	if (parent)
+	this->parent = parent;
+	if (parent != nullptr)
 	{
-		this->parent = parent;
-		this->parent->children.push_back(this);
-	}
-	else
-	{
-		this->parent = nullptr;
+		parent->children.push_back(this);
 	}
 	this->object_name = object_name;
 }
 
 BaseClass::~BaseClass()
 {
-	for (unsigned int i = 0; i < children.size(); i++)
+	for (int i = 0; i < children.size(); i++)
 	{
 		delete children[i];
 	}
 }
 
-BaseClass* BaseClass::getParent() 
+void BaseClass::setName(std::string name)
 {
-	return this->parent;
-}
-
-/*void BaseClass::SetParent(BaseClass* parent)
-{
-	if(parent)
-	{
-		if(this->parent)
-		{
-			for(size_t i = 0; i < this->parent->children.size(); i++)
-			{
-				if(this->parent->children[i] == this)
-				{
-					this->parent->children.erase(this->parent->children.begin() + i);
-					break;
-				}
-			}
-			this->parent = parent;		
-			parent->children.push_back(this);
-		}
-	}
-}*/
-
-void BaseClass::setName(std::string object_name)
-{
-	this->object_name = object_name;
+	this->object_name = name;
 }
 
 std::string BaseClass::getName()
@@ -57,18 +28,48 @@ std::string BaseClass::getName()
 	return this->object_name;
 }
 
-void BaseClass::ShowTree(int level)
+void BaseClass::printTree(BaseClass* parent, int space)
 {
-	std::string Space;
-	unsigned int StringLength = getName().length();
-	if (level > 0)
+	for (int i = 0; i < space; i++)
 	{
-		Space.append(StringLength * level, ' ');
+		std::cout << " ";
 	}
-	std::cout << Space << getName();
-	for (unsigned int i = 0; i < children.size(); i++)
+	std::cout << parent->getName();
+	for (int i = 0; i < parent->children.size(); i++)
 	{
 		std::cout << std::endl;
-		children[i]->ShowTree(level + 1);
+		children[i]->printTree(this->children[i], space + 4);
+	}
+}
+
+BaseClass* BaseClass::getPtr(std::string name)
+{
+	BaseClass* temp = nullptr;
+	if (name == this->getName())
+	{
+		temp = this;
+	}
+	else if (children.size() > 0)
+	{
+		for (int i = 0; i < children.size(); i++)
+		{
+			temp = children[i]->getPtr(name);
+			if (temp != nullptr)
+			{
+				break;
+			}
+		}
+	}
+	return temp;
+}
+
+void BaseClass::showOutput(BaseClass* parent)
+{
+	std::cout << std::endl;
+	std::cout << parent->getName() << "  ";
+	for (int i = 0; i < parent->children.size(); i++)
+	{
+		std::cout << parent->children[i]->getName() << "  ";
+		//parent->children[i]->showOutput(parent->children[i]);
 	}
 }
