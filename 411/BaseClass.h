@@ -23,9 +23,11 @@ public:
 
 	void printTree(BaseClass* parent, int space);
 
-	BaseClass* getPtr(std::string name);
+	BaseClass* getObjectPtr(std::string name);
 
-	void showOutput(BaseClass* parent);
+	BaseClass* getParentPtr(std::string name);
+
+	void showOutput(BaseClass* root);
 };
 
 #endif

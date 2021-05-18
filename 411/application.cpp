@@ -7,10 +7,10 @@ void Application::start()
 	object_name = root;
 	BaseClass* base;
 	while (true)
-	{
+	{ 
 		std::cin >> root;
 		std::cin >> obj_name;
-		base = new BaseClass(getPtr(root), obj_name);
+		base = new BaseClass(getObjectPtr(root), obj_name);
 		if (root == obj_name)
 		{
 			break;

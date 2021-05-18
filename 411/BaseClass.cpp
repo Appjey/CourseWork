@@ -42,34 +42,46 @@ void BaseClass::printTree(BaseClass* parent, int space)
 	}
 }
 
-BaseClass* BaseClass::getPtr(std::string name)
+BaseClass* BaseClass::getObjectPtr(std::string name)
 {
 	BaseClass* temp = nullptr;
 	if (name == this->getName())
 	{
 		temp = this;
 	}
-	else if (children.size() > 0)
+	else if (!children.empty())
 	{
 		for (int i = 0; i < children.size(); i++)
 		{
-			temp = children[i]->getPtr(name);
+			temp = children[i]->getObjectPtr(name);
 			if (temp != nullptr)
-			{
 				break;
-			}
 		}
 	}
 	return temp;
 }
 
-void BaseClass::showOutput(BaseClass* parent)
+BaseClass* BaseClass::getParentPtr(std::string name)
 {
-	std::cout << std::endl;
-	std::cout << parent->getName() << "  ";
-	for (int i = 0; i < parent->children.size(); i++)
+	return (!getObjectPtr(name)->children.empty()) ? getObjectPtr(name) : nullptr;
+}
+
+void BaseClass::showOutput(BaseClass* root)
+{
+	if (getParentPtr(this->getName()))
 	{
-		std::cout << parent->children[i]->getName() << "  ";
-		//parent->children[i]->showOutput(parent->children[i]);
+		if (this != root)
+		{
+			std::cout << '\n';
+		}
+		std::cout << this->getName();
+		for (int i = 0; i < this->children.size(); i++)
+		{
+			std::cout << "  " << this->children[i]->getName();
+		}
+	}
+	for (int i = 0; i < children.size(); i++)
+	{
+		children[i]->showOutput(root);
 	}
 }
