@@ -9,5 +9,6 @@ public:
 	using BaseClass::BaseClass;
 	void start();
 	void printResults();
+
 };
 #endif

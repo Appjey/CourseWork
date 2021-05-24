@@ -3,7 +3,7 @@
 BaseClass::BaseClass(BaseClass* parent, std::string object_name)
 {
 	this->parent = parent;
-	if (parent != nullptr)
+	if (this->parent != nullptr)
 	{
 		parent->children.push_back(this);
 	}
@@ -28,60 +28,44 @@ std::string BaseClass::getName()
 	return this->object_name;
 }
 
-void BaseClass::printTree(BaseClass* parent, int space)
+void BaseClass::printTree()
 {
-	for (int i = 0; i < space; i++)
+	std::cout << this->getName();
+	if (this->children.size() > 0)
 	{
-		std::cout << " ";
-	}
-	std::cout << parent->getName();
-	for (int i = 0; i < parent->children.size(); i++)
-	{
-		std::cout << std::endl;
-		children[i]->printTree(this->children[i], space + 4);
-	}
-}
-
-BaseClass* BaseClass::getObjectPtr(std::string name)
-{
-	BaseClass* temp = nullptr;
-	if (name == this->getName())
-	{
-		temp = this;
-	}
-	else if (!children.empty())
-	{
-		for (int i = 0; i < children.size(); i++)
-		{
-			temp = children[i]->getObjectPtr(name);
-			if (temp != nullptr)
-				break;
-		}
-	}
-	return temp;
-}
-
-BaseClass* BaseClass::getParentPtr(std::string name)
-{
-	return (!getObjectPtr(name)->children.empty()) ? getObjectPtr(name) : nullptr;
-}
-
-void BaseClass::showOutput(BaseClass* root)
-{
-	if (getParentPtr(this->getName()))
-	{
-		if (this != root)
-		{
-			std::cout << '\n';
-		}
-		std::cout << this->getName();
 		for (int i = 0; i < this->children.size(); i++)
 		{
-			std::cout << "  " << this->children[i]->getName();
+			std::cout << "  " << children[i]->getName();
+		}
+		if (this->children[this->children.size() - 1]->children.size() > 0)
+		{
+			std::cout << '\n';
+			this->children[this->children.size() - 1]->printTree();
 		}
 	}
-	for (int i = 0; i < children.size(); i++)
+}
+
+BaseClass* BaseClass::getParent()
+{
+	return this->parent;
+}
+
+void BaseClass::setParent(BaseClass* parent_p)
+{
+	if (this->parent)
 	{
-		children[i]->showOutput(root);
+		for (int i = 0; i < this->parent->children.size(); i++)
+		{
+			if (parent_p->children[i] == this)
+			{
+				parent->children.erase(parent->children.begin() + i);
+				break;
+			}
+		}
+	}
+	parent = parent_p;
+	if (parent_p)
+	{
+		parent->children.push_back(this);
 	}
 }

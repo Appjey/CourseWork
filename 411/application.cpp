@@ -1,27 +1,38 @@
 #include "Application.h"
+#include "SecondClass.h"
 
 void Application::start()
 {
-	std::string root, obj_name;
-	std::cin >> root;
-	object_name = root;
-	BaseClass* base;
+	std::string parent_name, sub_name;
+	std::string prev_sub_name; //Имя предыдущего подчинённого объекта
+	BaseClass* parent_object;
+	SecondClass* sub_object = nullptr;
+	int next_objects_number;
+
+	std::cin >> parent_name;
+	this->setName(parent_name);
+	parent_object = this;
 	while (true)
-	{ 
-		std::cin >> root;
-		std::cin >> obj_name;
-		base = new BaseClass(getObjectPtr(root), obj_name);
-		if (root == obj_name)
+	{
+		std::cin >> parent_name;
+		std::cin >> sub_name;
+		//std::cout << parent_name << "->" << sub_name << "->" << prev_sub_name << '\n';
+
+		if (parent_name == sub_name)
 		{
 			break;
 		}
-	}
+		if (parent_name == prev_sub_name)
+		{
+			parent_object = sub_object;
+		}
+		sub_object = new SecondClass(parent_object, sub_name);
+		prev_sub_name = sub_name;
+	};
 }
 
 void Application::printResults()
 {
-	printTree(this, 0);
-	std::cout << std::endl;
 	std::cout << this->getName() << std::endl;
-	showOutput(this);
+	printTree();
 }

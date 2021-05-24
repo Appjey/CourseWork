@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="BaseClass.h" />
+    <ClInclude Include="SecondClass.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />

@@ -21,13 +21,12 @@ public:
 
 	std::string getName();
 
-	void printTree(BaseClass* parent, int space);
+	void printTree();
 
-	BaseClass* getObjectPtr(std::string name);
+	BaseClass* getParent();
 
-	BaseClass* getParentPtr(std::string name);
+	void setParent(BaseClass* parent_p);
 
-	void showOutput(BaseClass* root);
 };
 
 #endif
